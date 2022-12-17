@@ -13,31 +13,62 @@ final class ViewController: UIViewController {
     
     @IBOutlet var forecastLabel: UILabel!
     
-    private var weatherManager = WeatherManager()
+    @IBOutlet weak var forecastImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        weatherManager.delegate = self
         searchTF.delegate = self
     }
 }
 
-// MARK: - WeatherManagerDelegate
+// MARK: - Common
 
-extension ViewController: WeatherManagerDelegate {
+extension ViewController {
     
-    func updateWeather(with weather: WeatherModel) {
-        DispatchQueue.main.async {
-            self.forecastLabel.text = """
-                                      City: \(weather.name)
-                                      Temp: \(weather.temp)
-                                      Feels like: \(weather.feelsLike)
-                                      Humidity: \(weather.humidity)
-                                      Wind: \(weather.wind)
-                                      Wind gust: \(weather.windGust)
-                                      Description: \(weather.description)
-                                      """
+    func loadForecast(for cityName: String) {
+        let urlString = "\(Link.weatherURL.rawValue)\(Link.appId.rawValue)&q=\(cityName)"
+        
+        NetworkManager.shared.fetch(WeatherData.self, from: urlString) { [weak self] result in
+            switch result {
+            case .success(let weather):
+                let weatherModel = weather.getWeatherModel()
+                
+                self?.setForecastValues(with: weatherModel)
+                
+                self?.loadForecastIcon(iconID: weatherModel.iconID)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func setForecastValues(with weather: WeatherModel) {
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.forecastLabel.text = """
+                                       City: \(weather.name)
+                                       Temp: \(weather.temp)
+                                       Feels like: \(weather.feelsLike)
+                                       Humidity: \(weather.humidity)
+                                       Wind: \(weather.wind)
+                                       Wind gust: \(weather.windGust)
+                                       Description: \(weather.description)
+                                       """
+        }
+    }
+    
+    func loadForecastIcon(iconID: String) {
+        
+        let imageURL = "\(Link.iconPrefix.rawValue)\(iconID)\(Link.iconPostfix.rawValue)"
+        
+        NetworkManager.shared.fetchImage(url: imageURL) { [weak self] result in
+            switch result {
+            case .success(let image):
+                self?.forecastImage.image = UIImage(data: image)
+            case .failure(let error):
+                print("Image: \(error)")
+            }
         }
     }
 }
@@ -54,11 +85,9 @@ extension ViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
-        // Если использовать автозаполнение то в конце добавляется пробел и url не срабатывает
         if let cityName = searchTF.text?.trimmingCharacters(in: .whitespaces) {
-            
             if !cityName.isEmpty {
-                weatherManager.performRequest(with: cityName)
+                loadForecast(for: cityName)
                 
                 searchTF.text = ""
             }

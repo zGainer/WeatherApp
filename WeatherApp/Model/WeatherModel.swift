@@ -12,5 +12,6 @@ struct WeatherModel {
     let humidity: Int
     let wind: Double
     let windGust: Double
+    let iconID: String
     let description: String
 }
