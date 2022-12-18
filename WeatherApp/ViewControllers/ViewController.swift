@@ -14,31 +14,47 @@ final class ViewController: UIViewController {
     @IBOutlet var forecastLabel: UILabel!
     
     @IBOutlet weak var forecastImage: UIImageView!
+
+    @IBOutlet var moreButton: UIButton!
+    
+    var weatherData: WeatherData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchTF.delegate = self
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let detailsForecastVC = segue.destination as? DetailsCollectionViewController else { return }
+        
+        detailsForecastVC.weatherData = weatherData
+    }
 }
 
 // MARK: - Common
 
 extension ViewController {
-    
-    func loadForecast(for cityName: String) {
-        let urlString = "\(Link.weatherURL.rawValue)\(Link.appId.rawValue)&q=\(cityName)"
+    func fetchWeatherData(for cityName: String) {
+        let urlString = "\(Link.weatherFiveDaysURL.rawValue)\(Link.appId.rawValue)&q=\(cityName)"
         
         NetworkManager.shared.fetch(WeatherData.self, from: urlString) { [weak self] result in
             switch result {
             case .success(let weather):
-                let weatherModel = weather.getWeatherModel()
+                
+                self?.weatherData = weather
+                
+                let weatherModel = weather.getWeatherModel(day: 0)
                 
                 self?.setForecastValues(with: weatherModel)
                 
                 self?.loadForecastIcon(iconID: weatherModel.iconID)
+                
+                self?.moreButton.isHidden = false
             case .failure(let error):
                 print(error)
+                
+                self?.moreButton.isHidden = true
             }
         }
     }
@@ -87,7 +103,7 @@ extension ViewController: UITextFieldDelegate {
         
         if let cityName = searchTF.text?.trimmingCharacters(in: .whitespaces) {
             if !cityName.isEmpty {
-                loadForecast(for: cityName)
+                fetchWeatherData(for: cityName)
                 
                 searchTF.text = ""
             }

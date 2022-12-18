@@ -8,7 +8,8 @@
 import Foundation
 
 enum Link: String {
-    case weatherURL = "https://api.openweathermap.org/data/2.5/weather?units=metric"
+    //    case weatherURL = "https://api.openweathermap.org/data/2.5/weather?units=metric"
+    case weatherFiveDaysURL = "https://api.openweathermap.org/data/2.5/forecast?units=metric"
     case appId = "&appid=7f38adc0a11fd4af805a53931604b32e"
     case iconPrefix = "https://openweathermap.org/img/wn/"
     case iconPostfix = "@2x.png"
