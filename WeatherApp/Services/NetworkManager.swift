@@ -45,6 +45,7 @@ class NetworkManager: Error {
             
             do {
                 let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
                 
                 let type = try decoder.decode(T.self, from: data)
                 

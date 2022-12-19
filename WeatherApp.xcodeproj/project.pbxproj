@@ -11,7 +11,7 @@
 		442F241E294DD97400C4DC21 /* DetailsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F241D294DD97400C4DC21 /* DetailsCollectionViewController.swift */; };
 		44496896294857910037C47F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44496895294857910037C47F /* AppDelegate.swift */; };
 		44496898294857910037C47F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44496897294857910037C47F /* SceneDelegate.swift */; };
-		4449689A294857910037C47F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44496899294857910037C47F /* ViewController.swift */; };
+		4449689A294857910037C47F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44496899294857910037C47F /* MainViewController.swift */; };
 		4449689D294857910037C47F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4449689B294857910037C47F /* Main.storyboard */; };
 		4449689F294857930037C47F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4449689E294857930037C47F /* Assets.xcassets */; };
 		444968A2294857930037C47F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 444968A0294857930037C47F /* LaunchScreen.storyboard */; };
@@ -27,7 +27,7 @@
 		44496892294857910037C47F /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44496895294857910037C47F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		44496897294857910037C47F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		44496899294857910037C47F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		44496899294857910037C47F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		4449689C294857910037C47F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4449689E294857930037C47F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		444968A1294857930037C47F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4428EA2A29503F72006401B3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				449C8FBC294EFE7500FFC160 /* WeatherCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		44496889294857910037C47F = {
 			isa = PBXGroup;
 			children = (
@@ -68,6 +76,7 @@
 		44496894294857910037C47F /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				4428EA2A29503F72006401B3 /* Views */,
 				44FAE948294C4A850012DF82 /* Services */,
 				444968AD29485AA20037C47F /* Model */,
 				444968A9294857AD0037C47F /* App */,
@@ -91,9 +100,8 @@
 		444968AA294857B70037C47F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				44496899294857910037C47F /* ViewController.swift */,
+				44496899294857910037C47F /* MainViewController.swift */,
 				442F241D294DD97400C4DC21 /* DetailsCollectionViewController.swift */,
-				449C8FBC294EFE7500FFC160 /* WeatherCell.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -206,7 +214,7 @@
 			files = (
 				449C8FBD294EFE7500FFC160 /* WeatherCell.swift in Sources */,
 				44033D3D2949ADB3003EBC15 /* WeatherManager.swift in Sources */,
-				4449689A294857910037C47F /* ViewController.swift in Sources */,
+				4449689A294857910037C47F /* MainViewController.swift in Sources */,
 				44496896294857910037C47F /* AppDelegate.swift in Sources */,
 				44FAE94A294C4AAD0012DF82 /* NetworkManager.swift in Sources */,
 				444968AF29485B000037C47F /* WeatherData.swift in Sources */,

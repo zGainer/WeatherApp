@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  WeatherApp
 //
 //  Created by Eugene on 13.12.22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class MainViewController: UIViewController {
     
     @IBOutlet var searchTF: UITextField!
     
@@ -17,7 +17,7 @@ final class ViewController: UIViewController {
 
     @IBOutlet var moreButton: UIButton!
     
-    var weatherData: WeatherData?
+    private var weatherData: WeatherData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +34,7 @@ final class ViewController: UIViewController {
 
 // MARK: - Common
 
-extension ViewController {
+private extension MainViewController {
     func fetchWeatherData(for cityName: String) {
         let urlString = "\(Link.weatherFiveDaysURL.rawValue)\(Link.appId.rawValue)&q=\(cityName)"
         
@@ -91,7 +91,7 @@ extension ViewController {
 
 // MARK: - UITextFieldDelegate
 
-extension ViewController: UITextFieldDelegate {
+extension MainViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTF.endEditing(true)

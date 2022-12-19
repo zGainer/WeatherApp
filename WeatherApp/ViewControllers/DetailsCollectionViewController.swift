@@ -7,10 +7,10 @@
 
 import UIKit
 
-class DetailsCollectionViewController: UICollectionViewController {
+final class DetailsCollectionViewController: UICollectionViewController {
 
-    let itemsPerRow: CGFloat = 1
-    let sectionInserts = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+    private let itemsPerRow: CGFloat = 1
+    private let sectionInserts = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
     
     var weatherData: WeatherData!
     
@@ -23,7 +23,18 @@ class DetailsCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "weatherCell", for: indexPath) as! WeatherCell
         
-        let weatherModel = weatherData.getWeatherModel(day: indexPath.item * 8)
+        setupCell(with: cell, numberOfItem: indexPath.item)
+
+        return cell
+    }
+}
+
+// MARK: - Common
+
+private extension DetailsCollectionViewController {
+    
+    func setupCell(with cell: WeatherCell, numberOfItem: Int) {
+        let weatherModel = weatherData.getWeatherModel(day: numberOfItem * 8)
         
         cell.dateLabel.text = weatherModel.dateString
         
@@ -38,14 +49,7 @@ class DetailsCollectionViewController: UICollectionViewController {
                                  Wind gust: \(weatherModel.windGust)
                                  Description: \(weatherModel.description)
                                  """
-
-        return cell
     }
-}
-
-// MARK: - Common
-
-extension DetailsCollectionViewController {
     
     func fetchForecastIcon(iconID: String, cell: WeatherCell) {
         
