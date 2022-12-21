@@ -15,20 +15,10 @@ final class MainViewController: UIViewController {
     
     @IBOutlet weak var forecastImage: UIImageView!
 
-    @IBOutlet var moreButton: UIButton!
-    
-    private var weatherData: WeatherData?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchTF.delegate = self
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let detailsForecastVC = segue.destination as? DetailsCollectionViewController else { return }
-        
-        detailsForecastVC.weatherData = weatherData
     }
 }
 
@@ -36,25 +26,17 @@ final class MainViewController: UIViewController {
 
 private extension MainViewController {
     func fetchWeatherData(for cityName: String) {
-        let urlString = "\(Link.weatherFiveDaysURL.rawValue)\(Link.appId.rawValue)&q=\(cityName)"
         
-        NetworkManager.shared.fetch(WeatherData.self, from: urlString) { [weak self] result in
+        NetworkManager.shared.fetchForecast(from: Link.weatherURL.rawValue,
+                                            for: cityName) { [weak self] result in
             switch result {
-            case .success(let weather):
-                
-                self?.weatherData = weather
-                
-                let weatherModel = weather.getWeatherModel(day: 0)
+            case .success(let weatherModel):
                 
                 self?.setForecastValues(with: weatherModel)
                 
                 self?.loadForecastIcon(iconID: weatherModel.iconID)
-                
-                self?.moreButton.isHidden = false
             case .failure(let error):
                 print(error)
-                
-                self?.moreButton.isHidden = true
             }
         }
     }
@@ -63,7 +45,6 @@ private extension MainViewController {
         
         DispatchQueue.main.async { [weak self] in
             self?.forecastLabel.text = """
-                                       City: \(weather.name)
                                        Temp: \(weather.temp)
                                        Feels like: \(weather.feelsLike)
                                        Humidity: \(weather.humidity)
@@ -78,7 +59,7 @@ private extension MainViewController {
         
         let imageURL = "\(Link.iconPrefix.rawValue)\(iconID)\(Link.iconPostfix.rawValue)"
         
-        NetworkManager.shared.fetchImage(url: imageURL) { [weak self] result in
+        NetworkManager.shared.fetchImage(from: imageURL) { [weak self] result in
             switch result {
             case .success(let image):
                 self?.forecastImage.image = UIImage(data: image)
